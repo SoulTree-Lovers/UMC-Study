@@ -1,10 +1,8 @@
 package org.example.jpa.domain.review.repository.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.example.jpa.domain.member.repository.entity.Member;
 
 @Entity
 @Getter
@@ -20,4 +18,7 @@ public class Review {
     private String title;
 
     private Float score;
+
+    @ManyToOne
+    private Member member;
 }
