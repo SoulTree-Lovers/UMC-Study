@@ -1,12 +1,13 @@
 package org.example.jpa.domain.mission.repository.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.example.jpa.domain.mapping.MemberMission;
+import org.example.jpa.domain.store.repository.entity.Store;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +26,10 @@ public class Mission {
 
     private String missionSpec;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+    private List<MemberMission> memberMissionList = new ArrayList<>();
 }
