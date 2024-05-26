@@ -1,7 +1,10 @@
 package org.example.jpa.domain.member.repository.entity;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.mapping.MemberAgree;
 import org.example.jpa.domain.mapping.MemberMission;
 import org.example.jpa.domain.mapping.MemberPrefer;
@@ -19,7 +22,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Member {
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "member")
+//@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class) -> Spring Data JPA는 알아서 스네이크 케이스로 바꿔준다는 사실..
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,25 +34,27 @@ public class Member {
     @Column(nullable = false, length = 20)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(10)")
+    private Gender gender;
+
+    private Integer age;
+
     @Column(nullable = false, length = 40)
     private String address;
 
     @Column(nullable = false, length = 40)
-
     private String specAddress;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10)")
-    private Gender gender;
-
-    @Enumerated(EnumType.STRING)
-    private SocialType socialType;
-
-    @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
+    @Column(columnDefinition = "varchar(15)")
     private MemberStatus status;
 
     private LocalDate inactiveDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(10)")
+    private SocialType socialType;
 
     @Column(nullable = false, length = 50)
     private String email;
