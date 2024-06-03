@@ -1,9 +1,6 @@
 package org.example.jpa.domain.reviewimage.repository.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.*;
 import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.review.repository.entity.Review;
