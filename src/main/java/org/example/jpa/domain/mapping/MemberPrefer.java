@@ -2,13 +2,15 @@ package org.example.jpa.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.foodcategory.repository.entity.FoodCategory;
 import org.example.jpa.domain.member.repository.entity.Member;
 
 @Entity
 @Getter
-@Builder
+@Setter
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MemberPrefer extends BaseEntity {
