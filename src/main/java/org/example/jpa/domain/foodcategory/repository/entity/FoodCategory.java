@@ -2,6 +2,7 @@ package org.example.jpa.domain.foodcategory.repository.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.mapping.MemberPrefer;
 
@@ -10,9 +11,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = false)
 public class FoodCategory extends BaseEntity {
 
     @Id
@@ -24,4 +26,5 @@ public class FoodCategory extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<MemberPrefer> memberPreferList = new ArrayList<>();
+
 }

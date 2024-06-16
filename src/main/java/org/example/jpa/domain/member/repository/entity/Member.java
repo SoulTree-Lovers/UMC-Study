@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.mapping.MemberAgree;
 import org.example.jpa.domain.mapping.MemberMission;
@@ -12,6 +13,9 @@ import org.example.jpa.domain.member.enums.Gender;
 import org.example.jpa.domain.member.enums.MemberStatus;
 import org.example.jpa.domain.member.enums.SocialType;
 import org.example.jpa.domain.review.repository.entity.Review;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,11 +23,14 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder
+//@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "member")
+@SuperBuilder
 //@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class) -> Spring Data JPA는 알아서 스네이크 케이스로 바꿔준다는 사실..
 public class Member extends BaseEntity {
 
@@ -47,7 +54,7 @@ public class Member extends BaseEntity {
     private String specAddress;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "varchar(15)")
+    @Column(columnDefinition = "varchar(15) DEFAULT 'ACTIVE'")
     private MemberStatus status;
 
     private LocalDate inactiveDate;
@@ -56,9 +63,10 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "varchar(10)")
     private SocialType socialType;
 
-    @Column(nullable = false, length = 50)
+//    @Column(nullable = true, length = 50)
     private String email;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
