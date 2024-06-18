@@ -4,15 +4,13 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.example.jpa.api.code.status.ErrorStatus;
-import org.example.jpa.api.exception.handler.FoodCategoryHandler;
 import org.example.jpa.api.exception.handler.StoreHandler;
 import org.example.jpa.domain.mission.repository.MissionRepository;
 import org.example.jpa.domain.mission.repository.entity.Mission;
-import org.example.jpa.domain.region.repository.entity.Region;
 import org.example.jpa.domain.review.repository.ReviewRepository;
 import org.example.jpa.domain.review.repository.entity.Review;
-import org.example.jpa.domain.store.controller.StoreMissionRequestDto;
-import org.example.jpa.domain.store.controller.StoreReviewRequestDto;
+import org.example.jpa.domain.store.controller.dto.StoreMissionRequestDto;
+import org.example.jpa.domain.store.controller.dto.StoreReviewRequestDto;
 import org.example.jpa.domain.store.repository.StoreRepository;
 import org.example.jpa.domain.store.repository.entity.Store;
 import org.springframework.stereotype.Service;
@@ -66,6 +64,11 @@ public class StoreServiceImpl implements StoreService {
 
         return storeRepository.save(store);
 
+    }
+
+    @Override
+    public Store findStore(Long id) {
+        return storeRepository.findById(id).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
     }
 
     @Override
