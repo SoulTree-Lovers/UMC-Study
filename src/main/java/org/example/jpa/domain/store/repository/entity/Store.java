@@ -6,6 +6,7 @@ import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.mission.repository.entity.Mission;
 import org.example.jpa.domain.region.repository.entity.Region;
 import org.example.jpa.domain.review.repository.entity.Review;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Store extends BaseEntity {
     @Column(length = 50)
     private String address;
 
+    @ColumnDefault("0.0")
     private Float score;
 
     @ManyToOne(fetch = FetchType.LAZY)
