@@ -39,7 +39,7 @@ public class FoodCategoryService {
         );
     }
 
-    public boolean idValid(List<Long> values, ConstraintValidatorContext context) {
+    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
         boolean isValid = values.stream()
             .allMatch(foodCategoryRepository::existsById);
 
