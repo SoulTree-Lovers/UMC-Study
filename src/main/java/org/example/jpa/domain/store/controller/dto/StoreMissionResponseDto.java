@@ -1,4 +1,4 @@
-package org.example.jpa.domain.store.controller;
+package org.example.jpa.domain.store.controller.dto;
 
 import lombok.Builder;
 
