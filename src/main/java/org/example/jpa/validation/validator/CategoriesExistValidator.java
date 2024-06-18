@@ -24,6 +24,6 @@ public class CategoriesExistValidator implements ConstraintValidator<ExistCatego
 
     @Override
     public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        return foodCategoryService.idValid(values, context);
+        return foodCategoryService.isValid(values, context);
     }
 }
