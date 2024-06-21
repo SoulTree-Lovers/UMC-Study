@@ -1,7 +1,7 @@
 package org.example.jpa.domain.store.converter;
 
-import org.example.jpa.domain.store.controller.StoreMissionResponseDto;
-import org.example.jpa.domain.store.controller.StoreReviewResponseDto;
+import org.example.jpa.domain.store.controller.dto.StoreMissionResponseDto;
+import org.example.jpa.domain.store.controller.dto.StoreReviewResponseDto;
 import org.example.jpa.domain.store.repository.entity.Store;
 import org.springframework.stereotype.Service;
 
