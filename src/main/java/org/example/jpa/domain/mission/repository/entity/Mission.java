@@ -3,10 +3,9 @@ package org.example.jpa.domain.mission.repository.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.jpa.common.BaseEntity;
-import org.example.jpa.domain.mapping.MemberMission;
+import org.example.jpa.domain.mapping.membermission.MemberMission;
 import org.example.jpa.domain.mission.enums.MissionStatus;
 import org.example.jpa.domain.store.repository.entity.Store;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
