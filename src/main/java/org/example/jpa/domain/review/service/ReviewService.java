@@ -8,4 +8,7 @@ public interface ReviewService {
 
     Page<Review> getReviewList(Long storeId, Integer page);
 
+    Page<Review> getMyReviewList(Long memberId, Integer page);
+
+
 }
