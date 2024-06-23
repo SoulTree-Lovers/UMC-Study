@@ -4,7 +4,9 @@ import jakarta.annotation.PostConstruct;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.example.jpa.api.code.status.ErrorStatus;
+import org.example.jpa.api.exception.handler.MemberHandler;
 import org.example.jpa.api.exception.handler.StoreHandler;
+import org.example.jpa.domain.member.repository.MemberRepository;
 import org.example.jpa.domain.mission.repository.MissionRepository;
 import org.example.jpa.domain.mission.repository.entity.Mission;
 import org.example.jpa.domain.review.repository.ReviewRepository;
@@ -25,6 +27,8 @@ public class StoreServiceImpl implements StoreService {
 
     private final MissionRepository missionRepository;
 
+    private final MemberRepository memberRepository;
+
     @PostConstruct
     private void init() {
         storeRepository.save(Store.builder()
@@ -37,11 +41,13 @@ public class StoreServiceImpl implements StoreService {
         Review review = Review.builder()
             .body(storeReviewRequestDto.body())
             .score(storeReviewRequestDto.score())
+            .member(memberRepository.findById(storeReviewRequestDto.memberId()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND)))
+            .store(storeRepository.findById(storeReviewRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND)))
             .build();
 
         reviewRepository.save(review);
 
-        Store store = storeRepository.findById(storeReviewRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        Store store = storeRepository.findById(storeReviewRequestDto.storeId()).get(); // 위에서 이미 가게가 존재한다는 것을 검증함
 
         store.getReviewList().add(review);
 
