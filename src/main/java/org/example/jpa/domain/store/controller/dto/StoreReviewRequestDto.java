@@ -7,6 +7,7 @@ import org.example.jpa.validation.annotation.ExistStore;
 public record StoreReviewRequestDto(
     @ExistStore
     Long storeId,
+    Long memberId,
     String body,
     Float score
 ) {
