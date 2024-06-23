@@ -60,11 +60,12 @@ public class StoreServiceImpl implements StoreService {
             .reward(storeMissionRequestDto.reward())
             .deadline(storeMissionRequestDto.deadline())
             .missionSpec(storeMissionRequestDto.missionSpec())
+            .store(storeRepository.findById(storeMissionRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND)))
             .build();
 
         missionRepository.save(mission);
 
-        Store store = storeRepository.findById(storeMissionRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        Store store = storeRepository.findById(storeMissionRequestDto.storeId()).get(); // 위에서 이미 검증
 
         store.getMissionList().add(mission);
 
