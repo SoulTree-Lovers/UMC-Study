@@ -3,10 +3,8 @@ package org.example.jpa.validation.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
-import org.example.jpa.domain.mission.controller.MissionChangeRequestDto;
+import org.example.jpa.domain.mission.controller.dto.MissionChangeRequestDto;
 import org.example.jpa.domain.mission.service.MissionService;
-import org.example.jpa.domain.store.service.StoreService;
-import org.example.jpa.validation.annotation.ExistStore;
 import org.example.jpa.validation.annotation.ValidMissionStatus;
 import org.springframework.stereotype.Component;
 
