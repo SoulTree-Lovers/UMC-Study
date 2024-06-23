@@ -1,4 +1,4 @@
-package org.example.jpa.domain.mapping;
+package org.example.jpa.domain.mapping.membermission;
 
 import jakarta.persistence.*;
 import lombok.*;
