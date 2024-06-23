@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.example.jpa.api.ApiResponse;
 import org.example.jpa.domain.review.controller.dto.ReviewPreviewListDto;
+import org.example.jpa.domain.review.converter.ReviewConverter;
 import org.example.jpa.domain.review.repository.entity.Review;
 import org.example.jpa.domain.review.service.ReviewService;
 import org.example.jpa.domain.review.service.ReviewServiceImpl;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/review")
 public class ReviewController {
+
+    private final ReviewConverter reviewConverter;
 
     private final ReviewService reviewService;
 
@@ -41,7 +44,9 @@ public class ReviewController {
     ) {
         Page<Review> reviewList = reviewService.getReviewList(storeId, page);
 
-        return null;
+        ReviewPreviewListDto reviewPreviewListDto = reviewConverter.toReviewPreviewListDto(reviewList);
+
+        return ApiResponse.onSuccess(reviewPreviewListDto);
     }
 
 }
