@@ -1,7 +1,7 @@
 package org.example.jpa.domain.mission.converter;
 
 import lombok.RequiredArgsConstructor;
-import org.example.jpa.domain.mission.controller.MissionChangeResponseDto;
+import org.example.jpa.domain.mission.controller.dto.MissionChangeResponseDto;
 import org.example.jpa.domain.mission.repository.entity.Mission;
 import org.springframework.stereotype.Service;
 
