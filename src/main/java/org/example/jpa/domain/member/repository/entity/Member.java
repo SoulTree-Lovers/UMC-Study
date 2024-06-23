@@ -1,13 +1,11 @@
 package org.example.jpa.domain.member.repository.entity;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.example.jpa.common.BaseEntity;
 import org.example.jpa.domain.mapping.MemberAgree;
-import org.example.jpa.domain.mapping.MemberMission;
+import org.example.jpa.domain.mapping.membermission.MemberMission;
 import org.example.jpa.domain.mapping.MemberPrefer;
 import org.example.jpa.domain.member.enums.Gender;
 import org.example.jpa.domain.member.enums.MemberStatus;
