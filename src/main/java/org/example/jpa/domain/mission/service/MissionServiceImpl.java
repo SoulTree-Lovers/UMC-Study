@@ -4,20 +4,21 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.jpa.api.code.status.ErrorStatus;
+import org.example.jpa.api.exception.handler.MemberHandler;
 import org.example.jpa.api.exception.handler.MissionHandler;
 import org.example.jpa.api.exception.handler.StoreHandler;
+import org.example.jpa.domain.mapping.membermission.MemberMission;
+import org.example.jpa.domain.mapping.membermission.MemberMissionRepository;
+import org.example.jpa.domain.member.repository.MemberRepository;
+import org.example.jpa.domain.member.repository.entity.Member;
 import org.example.jpa.domain.mission.controller.dto.MissionChangeRequestDto;
-import org.example.jpa.domain.mission.converter.MissionConverter;
 import org.example.jpa.domain.mission.repository.MissionRepository;
 import org.example.jpa.domain.mission.repository.entity.Mission;
-import org.example.jpa.domain.review.repository.entity.Review;
 import org.example.jpa.domain.store.repository.StoreRepository;
 import org.example.jpa.domain.store.repository.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,10 @@ public class MissionServiceImpl implements MissionService {
 
     private final StoreRepository storeRepository;
 
-    private final MissionConverter missionConverter;
+    private final MemberRepository memberRepository;
+
+    private final MemberMissionRepository memberMissionRepository;
+
 
 
     public Mission changeMissionStatus(MissionChangeRequestDto missionChangeRequestDto) {
@@ -68,7 +72,12 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public Page<Mission> getMyMissionList(Long memberId, Integer page) {
-        return null;
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        Page<Mission> missionPage = memberMissionRepository.findMissionByMember(member, PageRequest.of(page, 10));
+
+        return missionPage;
     }
 
 }
