@@ -13,6 +13,7 @@ import org.example.jpa.domain.review.converter.ReviewConverter;
 import org.example.jpa.domain.review.repository.entity.Review;
 import org.example.jpa.domain.review.service.ReviewService;
 import org.example.jpa.domain.review.service.ReviewServiceImpl;
+import org.example.jpa.validation.annotation.CheckPage;
 import org.example.jpa.validation.annotation.ExistStore;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +39,9 @@ public class ReviewController {
         @Parameter(name = "page", description = "페이지 번호, 0번이 1 페이지 입니다.")
     })
     @GetMapping("/{storeId}/reviews")
-    public ApiResponse<ReviewPreviewListDto> getReviewList(
+    public ApiResponse<ReviewPreviewListDto> getStoreReviewList(
         @ExistStore @PathVariable(name = "storeId") Long storeId,
-        @RequestParam(name = "page") Integer page
+        @CheckPage @RequestParam(name = "page") Integer page
     ) {
         Page<Review> reviewList = reviewService.getReviewList(storeId, page);
 
@@ -63,7 +64,7 @@ public class ReviewController {
     @GetMapping("/{memberId}/my-reviews")
     public ApiResponse<ReviewPreviewListDto> getMyReviewList(
         @ExistStore @PathVariable(name = "memberId") Long memberId,
-        @RequestParam(name = "page") Integer page
+        @CheckPage @RequestParam(name = "page") Integer page
     ) {
         Page<Review> reviewList = reviewService.getMyReviewList(memberId, page);
 
