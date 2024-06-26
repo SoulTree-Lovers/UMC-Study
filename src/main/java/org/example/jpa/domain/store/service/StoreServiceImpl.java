@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.jpa.api.code.status.ErrorStatus;
 import org.example.jpa.api.exception.handler.MemberHandler;
 import org.example.jpa.api.exception.handler.StoreHandler;
+import org.example.jpa.domain.mapping.membermission.MemberMission;
 import org.example.jpa.domain.member.repository.MemberRepository;
+import org.example.jpa.domain.member.repository.entity.Member;
 import org.example.jpa.domain.mission.repository.MissionRepository;
 import org.example.jpa.domain.mission.repository.entity.Mission;
 import org.example.jpa.domain.review.repository.ReviewRepository;
@@ -16,6 +18,8 @@ import org.example.jpa.domain.store.controller.dto.StoreReviewRequestDto;
 import org.example.jpa.domain.store.repository.StoreRepository;
 import org.example.jpa.domain.store.repository.entity.Store;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -60,11 +64,24 @@ public class StoreServiceImpl implements StoreService {
             .reward(storeMissionRequestDto.reward())
             .deadline(storeMissionRequestDto.deadline())
             .missionSpec(storeMissionRequestDto.missionSpec())
+            .store(storeRepository.findById(storeMissionRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND)))
+            .memberMissionList(new ArrayList<>())
             .build();
+
+        Member member = memberRepository.findById(storeMissionRequestDto.MemberId()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        MemberMission memberMission = MemberMission.builder()
+            .member(member)
+            .mission(mission)
+            .status(mission.getMissionStatus())
+            .build();
+
+        member.getMemberMissionList().add(memberMission);
+        mission.getMemberMissionList().add(memberMission);
 
         missionRepository.save(mission);
 
-        Store store = storeRepository.findById(storeMissionRequestDto.storeId()).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        Store store = storeRepository.findById(storeMissionRequestDto.storeId()).get(); // 위에서 이미 검증
 
         store.getMissionList().add(mission);
 

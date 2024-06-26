@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.example.jpa.api.ApiResponse;
 import org.example.jpa.api.code.ErrorReason;
+import org.example.jpa.api.code.PageValidationMethod;
 import org.example.jpa.api.code.status.ErrorStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
 import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +40,32 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternalConstraint(e, ErrorStatus.valueOf(errorMessage), HttpHeaders.EMPTY,request);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHandlerMethodValidationException(HandlerMethodValidationException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        String methodName = ex.getMethod().getName();
+
+//        log.info("reason: {}", ex.getReason());
+//        log.info("message: {}", ex.getMessage());
+//        log.info("target: {}", ex.getTarget());
+//        log.info("all error: {}", ex.getAllErrors());
+
+        /**
+         * <@CheckPage 어노테이션 검증하기>
+         * 1. Page 파라미터 검증을 요청하는 컨트롤러에 @CheckPage 어노테이션을 붙인다.
+         * 2. 특정 메소드의 이름을 가진 Enum 클래스를 만들어 Page를 사용하는 메소드 이름을 추가한다.
+         * 3. Page 에러 발생 시 해당 핸들러가 실행되고, 메소드가 위의 Enum에 있는 메소드에 속하는지 확인한다.
+         * 4. 만약 속한다면, PAGE_BAD_REQUEST 상태를 반환하며 에러를 처리한다.
+         */
+
+        if (Arrays.stream(PageValidationMethod.values()).anyMatch(
+            it -> it.getMethodName().equals(methodName)
+        )) {
+            return handleExceptionInternalArgs(ex ,HttpHeaders.EMPTY,ErrorStatus.valueOf("PAGE_BAD_REQUEST"),request, null);
+        }
+
+        return handleExceptionInternalArgs(ex ,HttpHeaders.EMPTY,ErrorStatus.valueOf("_BAD_REQUEST"),request, null);
+    }
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(

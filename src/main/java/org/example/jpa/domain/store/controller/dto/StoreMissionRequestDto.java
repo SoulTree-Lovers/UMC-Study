@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public record StoreMissionRequestDto(
     @ExistStore
     Long storeId,
+    Long MemberId,
     Integer reward,
     LocalDate deadline,
     String missionSpec
