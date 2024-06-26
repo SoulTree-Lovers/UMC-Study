@@ -15,8 +15,10 @@ import org.example.jpa.domain.mission.controller.dto.MissionPreviewListDto;
 import org.example.jpa.domain.mission.converter.MissionConverter;
 import org.example.jpa.domain.mission.repository.entity.Mission;
 import org.example.jpa.domain.mission.service.MissionService;
+import org.example.jpa.validation.annotation.CheckPage;
 import org.example.jpa.validation.annotation.ExistStore;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -51,9 +53,9 @@ public class MissionController {
         @Parameter(name = "page", description = "페이지 번호, 0번이 1 페이지 입니다.")
     })
     @GetMapping("/store-missions/{storeId}")
-    public ApiResponse<MissionPreviewListDto> getStoreReviewList(
+    public ApiResponse<MissionPreviewListDto> getStoreMissionList(
         @ExistStore @PathVariable(name = "storeId") Long storeId,
-        @RequestParam(name = "page") Integer page
+        @CheckPage @RequestParam(name = "page") Integer page
     ) {
         Page<Mission> storeMissionList = missionService.getStoreMissionList(storeId, page);
 
@@ -74,9 +76,9 @@ public class MissionController {
         @Parameter(name = "page", description = "페이지 번호, 0번이 1 페이지 입니다.")
     })
     @GetMapping("/member-missions/{memberId}")
-    public ApiResponse<MissionPreviewListDto> getMyReviewList(
+    public ApiResponse<MissionPreviewListDto> getMyMissionList(
         @ExistStore @PathVariable(name = "memberId") Long memberId,
-        @RequestParam(name = "page") Integer page
+        @CheckPage @RequestParam(name = "page") Integer page
     ) {
         Page<Mission> missionPage = missionService.getMyMissionList(memberId, page);
 
