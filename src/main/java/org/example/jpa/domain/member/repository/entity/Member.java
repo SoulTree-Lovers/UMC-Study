@@ -15,11 +15,14 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 //@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,8 +64,11 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "varchar(10)")
     private SocialType socialType;
 
-//    @Column(nullable = true, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @ColumnDefault("0")
     private Integer point;
